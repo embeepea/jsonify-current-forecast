@@ -1,0 +1,25 @@
+<html>
+<head>
+  <script type='text/javascript' src='lib/jquery/jquery-1.8.2.js'></script>
+  <script type='text/javascript' src='src/current.js'></script>
+  <script type='text/javascript'>
+    (function () {
+      var data,
+          obj;
+      $.ajax({
+          url : 'data/Avl_0411-0418.xml',
+          dataType: 'text',
+          success: function (response) {
+             data = response;
+             obj = handleXML(data);
+             console.log(obj);
+          }
+      });
+    })()
+  </script>
+</head>
+<body>
+  <pre>
+  </pre>
+</body>
+</html>
