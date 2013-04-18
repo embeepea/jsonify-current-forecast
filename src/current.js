@@ -1,4 +1,5 @@
 function handleXML(xmlstring) {
+    'use strict';
 
     var xmldoc = $.parseXML(xmlstring),
         $xml = $(xmldoc),
@@ -13,20 +14,19 @@ function handleXML(xmlstring) {
             elementName,
             elementType,
             timeTag,
-            timeLayoutKey,
             date,
             year,
             month,
             day,
             hour,
             elementValue;
-        
+
         $data.children().each(function () {
             $dataTags = $(this);
             dataTagName = this.tagName;
-            
+
             if (dataTagName === 'location') {
-                
+
                 if (!obj[dataTagName]) {
                     obj[dataTagName] = {};
                 }
@@ -42,7 +42,7 @@ function handleXML(xmlstring) {
                     $data = $(this);
                     elementName = this.tagName;
                     elementType = $data.attr('type');
-                    
+
                     if (!obj[elementName]) {
                         obj[elementName] = {};
                     }
@@ -63,37 +63,36 @@ function handleXML(xmlstring) {
                             $data = $(this);
                             timeTag = this.tagName;
                             if (timeTag === 'end-valid-time') {
-                               date = new Date($data.text());
-                                    year = date.getFullYear(); //four-digit year
-                                    month = date.getMonth();
-                                    day = date.getDate(); //day of month
-                                    hour = date.getHours(); 
-                                    
-                                    if (!tempObj[year]) {
-                                        //tempObj[year] = {};
-                                        tempObj[year] = [];
-                                    } 
-                                    
-                                    if (!tempObj[year][month]) {
-                                        tempObj[year][month] = [];
-                                    }
-                                
-                                if (!tempObj[year][month][day-1]) {
-                                    tempObj[year][month][day-1] = [];
+                                date = new Date($data.text());
+                                year = date.getFullYear(); //four-digit year
+                                month = date.getMonth();
+                                day = date.getDate(); //day of month
+                                hour = date.getHours();
+
+                                if (!tempObj[year]) {
+                                    tempObj[year] = [];
                                 }
+
+                                if (!tempObj[year][month]) {
+                                    tempObj[year][month] = [];
+                                }
+
+                                if (!tempObj[year][month][day - 1]) {
+                                    tempObj[year][month][day - 1] = [];
+                                }
+
                                 console.log(elementValue);
-                                tempObj[year][month][day-1][hour] = elementValue;
+                                tempObj[year][month][day - 1][hour] = elementValue;
                             }
                         });
-                    }); 
-
+                    });
                 });
-            } 
+            }
         });
     });
 //*** REMOVE CONSOLE.LOG BEFORE COMMITTING ***//
     console.log(obj);
     //console.log(tempObj);
-    return(obj);
+    return obj;
 
 } //end handleXML
