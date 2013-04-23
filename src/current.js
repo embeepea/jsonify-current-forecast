@@ -4,95 +4,131 @@ function handleXML(xmlstring) {
     var xmldoc = $.parseXML(xmlstring),
         $xml = $(xmldoc),
         obj = {},
-        tempObj = {};
+        $data,
+        elementName,
+        elementType,
+        timeTag,
+        date,
+        year,
+        month,
+        day,
+        hour,
+        elementValue,
+        $parameters,
+        $parameterData,
+        $elementData,
+        $timeData,
+        timeArr = [],
+        $time,
+        $location,
+        location,
+        latitude,
+        longitude,
+        count;
+
 
     $xml.find('data').each(function () {
-        var $data = $(this),
-            $dataTags,
-            dataTagName,
-            tagName,
-            elementName,
-            elementType,
-            timeTag,
-            date,
-            year,
-            month,
-            day,
-            hour,
-            elementValue;
-
-        $data.children().each(function () {
-            $dataTags = $(this);
-            dataTagName = this.tagName;
-
-            if (dataTagName === 'location') {
-
-                if (!obj[dataTagName]) {
-                    obj[dataTagName] = {};
+        $data = $(this);
+        $data.find('time-layout').each(function () {
+            $time = $(this);
+            $time.children().each(function () {
+                $timeData = $(this);
+                timeTag = this.tagName;
+                if (timeTag === 'end-valid-time') {
+                    date = new Date($timeData.text());
+                    timeArr.push(date);
                 }
+            });
+        });
 
-                $dataTags.children().each(function () {
-                    $data = $(this);
-                    tagName = this.tagName;
-                    obj[dataTagName][tagName] = $data.text();
-                    obj[dataTagName][tagName][$data.text()] = {};
-                });
-            } else if (dataTagName === 'parameters') {
-                $dataTags.children().each(function () {
-                    $data = $(this);
-                    elementName = this.tagName;
-                    elementType = $data.attr('type');
+        $data.find('location').each(function () {
+            $location = $(this);
+            location = $location.find('city').text();
+            latitude = $location.find('point').attr('latitude');
+            longitude = $location.find('point').attr('longitude');
+            if (!obj.location) {
+                obj.location = {};
+            }
+            if (!obj.location.latitude) {
+                obj.location.latitude = latitude;
+            }
+            if (!obj.location.longitude) {
+                obj.location.longitude = longitude;
+            }
+            if (!obj.location.city) {
+                obj.location.city = location;
+            }
+        });
+
+
+        $data.find('parameters').each(function () {
+            $parameters = $(this);
+            $parameters.children().each(function () {
+                $parameterData = $(this);
+                elementName = this.tagName;
+                elementType = $parameterData.attr('type');
+                count = 0;
+                $parameterData.children().each(function () {
+                    $elementData = $(this);
+                    elementValue = $elementData.text();
+
+                    date = new Date(timeArr[count]);
+                    year = date.getFullYear(); //four-digit year
+                    month = date.getMonth();
+                    day = date.getDate(); //day of month
+                    hour = date.getHours();
 
                     if (!obj[elementName]) {
                         obj[elementName] = {};
                     }
-                    if ($data.attr('type') !== undefined) {
-                        obj[elementName][elementType] = tempObj;
+
+                    if (elementType !== undefined) {
+                        if (!obj[elementName][elementType]) {
+                            obj[elementName][elementType] = {};
+                        }
+
+                        if (!obj[elementName][elementType][year]) {
+                            obj[elementName][elementType][year] = [];
+                        }
+
+                        if (!obj[elementName][elementType][year][month]) {
+                            obj[elementName][elementType][year][month] = [];
+                        }
+
+                        if (!obj[elementName][elementType][year][month][day - 1]) {
+                            obj[elementName][elementType][year][month][day - 1] = [];
+                        }
+
+                        obj[elementName][elementType][year][month][day - 1][hour] = Number(elementValue);
+
                     } else {
-                        obj[elementName] = tempObj;
+                        if (!obj[elementName][year]) {
+                            obj[elementName][year] = [];
+                        }
+
+                        if (!obj[elementName][year][month]) {
+                            obj[elementName][year][month] = [];
+                        }
+
+                        if (!obj[elementName][year][month][day - 1]) {
+                            obj[elementName][year][month][day - 1] = [];
+                        }
+
+                        obj[elementName][year][month][day - 1][hour] = Number(elementValue);
                     }
 
-                    $data.children().each(function () {
-                        $data = $(this);
-                        elementValue = $data.text();
-                    });
 
-                    $xml.find('time-layout').each(function () {
-                        $data = $(this);
-                        $data.children().each(function () {
-                            $data = $(this);
-                            timeTag = this.tagName;
-                            if (timeTag === 'end-valid-time') {
-                                date = new Date($data.text());
-                                year = date.getFullYear(); //four-digit year
-                                month = date.getMonth();
-                                day = date.getDate(); //day of month
-                                hour = date.getHours();
-
-                                if (!tempObj[year]) {
-                                    tempObj[year] = [];
-                                }
-
-                                if (!tempObj[year][month]) {
-                                    tempObj[year][month] = [];
-                                }
-
-                                if (!tempObj[year][month][day - 1]) {
-                                    tempObj[year][month][day - 1] = [];
-                                }
-
-                                console.log(elementValue);
-                                tempObj[year][month][day - 1][hour] = elementValue;
-                            }
-                        });
-                    });
+                    if (count < timeArr.length - 1) {
+                        count += count;
+                    } else {
+                        count = 0;
+                    }
                 });
-            }
+            });
         });
     });
-//*** REMOVE CONSOLE.LOG BEFORE COMMITTING ***//
+
     console.log(obj);
-    //console.log(tempObj);
     return obj;
 
 } //end handleXML
