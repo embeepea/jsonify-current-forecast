@@ -62,6 +62,10 @@ describe("parse_dly", function () {
                 expect(n.temperature['hourly'][2013][3][10][12]).toBeDefined();
             });
 
+            it('should store the value', function () {
+                expect(n.temperature['hourly'][2013][3][10][12]).toEqual(68);
+            });
+
         });
     });
 });
