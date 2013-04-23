@@ -119,7 +119,7 @@ function handleXML(xmlstring) {
 
 
                     if (count < timeArr.length - 1) {
-                        count += count;
+                        count = count + 1;
                     } else {
                         count = 0;
                     }
