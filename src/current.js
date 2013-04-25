@@ -24,7 +24,10 @@ function handleXML(xmlstring) {
         location,
         latitude,
         longitude,
-        count;
+        count,
+        $weatherConditions,
+        weatherType,
+        weatherCoverage;
 
 
     $xml.find('data').each(function () {
@@ -114,7 +117,26 @@ function handleXML(xmlstring) {
                             obj[elementName][year][month][day - 1] = [];
                         }
 
-                        obj[elementName][year][month][day - 1][hour] = Number(elementValue);
+                        if(elementName === 'weather') {
+                            $elementData.find('value').each(function () {
+                                $weatherConditions = $(this);
+                                weatherType = $weatherConditions.attr('weather-type');
+                                weatherCoverage = $weatherConditions.attr('coverage');
+
+                                if (weatherType !== undefined) {
+                                    if (!obj[elementName][year][month][day - 1][hour]) {
+                                        obj[elementName][year][month][day - 1][hour] = {};
+                                    }
+
+                                    if (!obj[elementName][year][month][day - 1][hour][weatherType]) {
+                                        obj[elementName][year][month][day - 1][hour][weatherType] = weatherCoverage;
+                                    }
+                                }
+                            });
+                        } else {
+
+                            obj[elementName][year][month][day - 1][hour] = Number(elementValue);
+                        }
                     }
 
 
