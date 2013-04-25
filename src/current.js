@@ -101,8 +101,9 @@ function handleXML(xmlstring) {
                         if (!obj[elementName][elementType][year][month][day - 1]) {
                             obj[elementName][elementType][year][month][day - 1] = [];
                         }
-
-                        obj[elementName][elementType][year][month][day - 1][hour] = Number(elementValue);
+                        if ((elementValue !== undefined) && (elementValue !== '')) {
+                            obj[elementName][elementType][year][month][day - 1][hour] = Number(elementValue);
+                        }
 
                     } else {
                         if (!obj[elementName][year]) {
@@ -135,7 +136,9 @@ function handleXML(xmlstring) {
                             });
                         } else {
 
-                            obj[elementName][year][month][day - 1][hour] = Number(elementValue);
+                            if ((elementValue !== undefined) && (elementValue !== '')){
+                                obj[elementName][year][month][day - 1][hour] = Number(elementValue);
+                            }
                         }
                     }
 
