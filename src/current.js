@@ -8,6 +8,8 @@ function handleXML(xmlstring) {
         elementName,
         elementType,
         timeTag,
+        dateText,
+        dateObj,
         date,
         year,
         month,
@@ -38,8 +40,12 @@ function handleXML(xmlstring) {
                 $timeData = $(this);
                 timeTag = this.tagName;
                 if (timeTag === 'end-valid-time') {
-                    date = new Date($timeData.text());
-                    timeArr.push(date);
+                    dateText = $timeData.text();
+                    dateObj = {'year': Number(dateText.substring(0, 4)),
+                                   'month' : Number(dateText.substring(5, 7)),
+                                   'day' : Number(dateText.substring(8, 10)),
+                                   'hour' : Number(dateText.substring(11, 13))};
+                    timeArr.push(dateObj);
                 }
             });
         });
@@ -74,12 +80,11 @@ function handleXML(xmlstring) {
                 $parameterData.children().each(function () {
                     $elementData = $(this);
                     elementValue = $elementData.text();
-
-                    date = new Date(timeArr[count]);
-                    year = date.getFullYear(); //four-digit year
-                    month = date.getMonth();
-                    day = date.getDate(); //day of month
-                    hour = date.getHours();
+                    date = timeArr[count];
+                    year = date.year; //four-digit year
+                    month = date.month;
+                    day = date.day; //day of month
+                    hour = date.hour;
 
                     if (!obj[elementName]) {
                         obj[elementName] = {};
@@ -94,15 +99,15 @@ function handleXML(xmlstring) {
                             obj[elementName][elementType][year] = [];
                         }
 
-                        if (!obj[elementName][elementType][year][month]) {
-                            obj[elementName][elementType][year][month] = [];
+                        if (!obj[elementName][elementType][year][month - 1]) {
+                            obj[elementName][elementType][year][month - 1] = [];
                         }
 
-                        if (!obj[elementName][elementType][year][month][day - 1]) {
-                            obj[elementName][elementType][year][month][day - 1] = [];
+                        if (!obj[elementName][elementType][year][month - 1][day - 1]) {
+                            obj[elementName][elementType][year][month - 1][day - 1] = [];
                         }
                         if ((elementValue !== undefined) && (elementValue !== '')) {
-                            obj[elementName][elementType][year][month][day - 1][hour] = Number(elementValue);
+                            obj[elementName][elementType][year][month - 1][day - 1][hour] = Number(elementValue);
                         }
 
                     } else {
@@ -110,34 +115,34 @@ function handleXML(xmlstring) {
                             obj[elementName][year] = [];
                         }
 
-                        if (!obj[elementName][year][month]) {
-                            obj[elementName][year][month] = [];
+                        if (!obj[elementName][year][month - 1]) {
+                            obj[elementName][year][month - 1] = [];
                         }
 
-                        if (!obj[elementName][year][month][day - 1]) {
-                            obj[elementName][year][month][day - 1] = [];
+                        if (!obj[elementName][year][month - 1][day - 1]) {
+                            obj[elementName][year][month - 1][day - 1] = [];
                         }
 
-                        if(elementName === 'weather') {
+                        if (elementName === 'weather') {
                             $elementData.find('value').each(function () {
                                 $weatherConditions = $(this);
                                 weatherType = $weatherConditions.attr('weather-type');
                                 weatherCoverage = $weatherConditions.attr('coverage');
 
                                 if (weatherType !== undefined) {
-                                    if (!obj[elementName][year][month][day - 1][hour]) {
-                                        obj[elementName][year][month][day - 1][hour] = {};
+                                    if (!obj[elementName][year][month - 1][day - 1][hour]) {
+                                        obj[elementName][year][month - 1][day - 1][hour] = {};
                                     }
 
-                                    if (!obj[elementName][year][month][day - 1][hour][weatherType]) {
-                                        obj[elementName][year][month][day - 1][hour][weatherType] = weatherCoverage;
+                                    if (!obj[elementName][year][month - 1][day - 1][hour][weatherType]) {
+                                        obj[elementName][year][month - 1][day - 1][hour][weatherType] = weatherCoverage;
                                     }
                                 }
                             });
                         } else {
 
-                            if ((elementValue !== undefined) && (elementValue !== '')){
-                                obj[elementName][year][month][day - 1][hour] = Number(elementValue);
+                            if ((elementValue !== undefined) && (elementValue !== '')) {
+                                obj[elementName][year][month - 1][day - 1][hour] = Number(elementValue);
                             }
                         }
                     }
