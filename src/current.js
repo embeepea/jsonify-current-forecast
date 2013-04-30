@@ -53,10 +53,10 @@ function handleXML(xmlstring) {
                 obj.location = {};
             }
             if (!obj.location.latitude) {
-                obj.location.latitude = latitude;
+                obj.location.latitude = Number(latitude);
             }
             if (!obj.location.longitude) {
-                obj.location.longitude = longitude;
+                obj.location.longitude = Number(longitude);
             }
             if (!obj.location.city) {
                 obj.location.city = location;
@@ -153,7 +153,6 @@ function handleXML(xmlstring) {
         });
     });
 
-    console.log(obj);
     return obj;
 
 } //end handleXML

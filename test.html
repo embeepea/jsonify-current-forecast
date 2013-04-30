@@ -12,9 +12,22 @@
           success: function (response) {
              data = response;
              obj = handleXML(data);
+             console.log('Asheville Object');
              console.log(obj);
           }
       });
+      $.ajax({
+          url : 'data/Seattle_0430-0507.xml',
+          dataType: 'text',
+          success: function (response) {
+             data = response;
+             obj = handleXML(data);
+             console.log('Seattle Object');
+             console.log(obj);
+          }
+      });
+
+
     })()
   </script>
 </head>
