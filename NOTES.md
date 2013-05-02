@@ -18,7 +18,7 @@ Write the following function:
   }
 ```
 
-For suppose `obj` is the object returned by passing the following XML file to `handleXML()`:
+For example, suppose `obj` is the object returned by passing the following XML file to `handleXML()`:
 
 
 ```xml
