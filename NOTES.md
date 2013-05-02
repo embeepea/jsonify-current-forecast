@@ -18,7 +18,7 @@ Write the following function:
   }
 ```
 
-where
+For suppose `obj` is the object returned by passing the following XML file to `handleXML()`:
 
 
 ```xml
@@ -45,10 +45,9 @@ where
       </temperature>
       <temperature type="dew point" ...>
         <value>54</value>
-        <value>54</value>
-        <value>54</value>
-        <value>54</value>
-        <value>55</value>
+        <value>58</value>
+        <value>52</value>
+        <value>51</value>
       </temperature>
       <temperature type="wind chill" ...>
         <value xsi:nil="true"/>
@@ -56,16 +55,14 @@ where
         <value xsi:nil="true"/>
         <value xsi:nil="true"/>
       </temperature>
-      <probability-of-precipitation ...>
+      <probability-of-precipitation type="floating"...>
         <value>5</value>
         <value>6</value>
         <value>11</value>
         <value>16</value>
-        <value>24</value>
       </probability-of-precipitation>
-      <wind-speed type="sustained" time-layout="k-p1h-n1-0">
+      <wind-speed type="sustained" ...>
         <value>14</value>
-        <value>15</value>
         <value>15</value>
         <value>15</value>
         <value>15</value>
@@ -75,9 +72,25 @@ where
         <value>190</value>
         <value>180</value>
         <value>180</value>
-        <value>180</value>
       </direction>
     </parameters>
   </data>
 </dwml>
+```
+
+Then the call
+
+```javascript
+currentWeatherXMLObjectToStringArray(obj, [ { 'parameter' : 'temperature', 'type' : 'hourly' },
+                                            { 'parameter' : 'temperature', 'type' : 'dew point },
+                                            { 'parameter' : 'probability-of-precipitation' 'type' : 'floating' } ])
+```
+
+would return the array
+
+```javascript
+[[ "2013041112","68","54","5" ],
+ [ "2013041113","72","58","6" ],
+ [ "2013041114","73","52","11"],
+ [ "2013041115","74","51","16"]]
 ```
