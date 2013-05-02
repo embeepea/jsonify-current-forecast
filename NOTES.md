@@ -1,0 +1,83 @@
+Write the following function:
+
+```javascript
+  function currentWeatherXMLObjectToStringArray(obj, parameters) {
+      // 'obj'      : an object of the sort returned by handleXML()
+      // 'parameters' : an array of objects, where each object has properties named 'parameter' and 'type',
+      //              corresponding to a specific type of observed parameter in obj
+      //
+      //  returns  : an N x M array of strings -- i.e. an array of length N, where
+      //             each item in the array is an array of length M.  Think of
+      //             this as a spreadsheet of N rows and M columns. N is the
+      //             number of time points in the file (i.e. the number of
+      //             <end-valid-time> or <start-valid-time> tags inside the
+      //             <time-layout> tag).  The first (position 0) of the M values in each
+      //             row is the (end) time associated with the observation, and the
+      //             other M-1 values on the row are the values of the parameters
+      //             from the 'parameters' array associated with that time.
+  }
+```
+
+where
+
+
+```xml
+<dwml ...>
+  ...
+  <data>
+    ...
+    <time-layout ...>
+      <start-valid-time>2013-04-11T11:00:00-04:00</start-valid-time>
+      <end-valid-time>2013-04-11T12:00:00-04:00</end-valid-time>
+      <start-valid-time>2013-04-11T12:00:00-04:00</start-valid-time>
+      <end-valid-time>2013-04-11T13:00:00-04:00</end-valid-time>
+      <start-valid-time>2013-04-11T13:00:00-04:00</start-valid-time>
+      <end-valid-time>2013-04-11T14:00:00-04:00</end-valid-time>
+      <start-valid-time>2013-04-11T14:00:00-04:00</start-valid-time>
+      <end-valid-time>2013-04-11T15:00:00-04:00</end-valid-time>
+    </time-layout>
+    <parameters ...>
+      <temperature type="hourly" ...>
+        <value>68</value>
+        <value>72</value>
+        <value>73</value>
+        <value>74</value>
+      </temperature>
+      <temperature type="dew point" ...>
+        <value>54</value>
+        <value>54</value>
+        <value>54</value>
+        <value>54</value>
+        <value>55</value>
+      </temperature>
+      <temperature type="wind chill" ...>
+        <value xsi:nil="true"/>
+        <value xsi:nil="true"/>
+        <value xsi:nil="true"/>
+        <value xsi:nil="true"/>
+      </temperature>
+      <probability-of-precipitation ...>
+        <value>5</value>
+        <value>6</value>
+        <value>11</value>
+        <value>16</value>
+        <value>24</value>
+      </probability-of-precipitation>
+      <wind-speed type="sustained" time-layout="k-p1h-n1-0">
+        <value>14</value>
+        <value>15</value>
+        <value>15</value>
+        <value>15</value>
+        <value>15</value>
+      </wind-speed>
+      <direction type="wind" ...>
+        <value>190</value>
+        <value>190</value>
+        <value>180</value>
+        <value>180</value>
+        <value>180</value>
+      </direction>
+    </parameters>
+  </data>
+</dwml>
+```
