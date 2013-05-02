@@ -1,4 +1,4 @@
-describe("parse_dly", function () {
+describe("handleXML", function () {
     "use strict";
 
     describe("function definition", function () {
