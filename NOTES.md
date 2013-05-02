@@ -11,10 +11,13 @@ Write the following function:
       //             this as a spreadsheet of N rows and M columns. N is the
       //             number of time points in the file (i.e. the number of
       //             <end-valid-time> or <start-valid-time> tags inside the
-      //             <time-layout> tag).  The first (position 0) of the M values in each
-      //             row is the (end) time associated with the observation, and the
-      //             other M-1 values on the row are the values of the parameters
-      //             from the 'parameters' array associated with that time.
+      //             <time-layout> tag).  The first (position 0) of the M values
+      //             in each row is the (end) time associated with the
+      //             observation, in the format YYYYMMDDHH, where YYYY is the
+      //             4-digit year, MM is the (1-based !!) month number, DD is the
+      //             (1-based !!)  day number, and HH is the hour.  The other M-1
+      //             values on the row are the values of the parameters from the
+      //             'parameters' array associated with that time.
   }
 ```
 
@@ -82,7 +85,7 @@ Then the call
 
 ```javascript
 currentWeatherXMLObjectToStringArray(obj, [ { 'parameter' : 'temperature', 'type' : 'hourly' },
-                                            { 'parameter' : 'temperature', 'type' : 'dew point },
+                                            { 'parameter' : 'temperature', 'type' : 'dew point' },
                                             { 'parameter' : 'probability-of-precipitation' 'type' : 'floating' } ])
 ```
 
