@@ -31,7 +31,7 @@ describe("currentWeatherXMLObjectToStringArray", function () {
                     n = handleXML(data);
                     arr = currentWeatherXMLObjectToStringArray(n, [ { 'parameter' : 'temperature', 'type' : 'hourly' },
                                                                     { 'parameter' : 'temperature', 'type' : 'dew point' },
-                                                                    { 'parameter' : 'probablility-of-preciptiation', 'type' : 'floating' } ]);
+                                                                    { 'parameter' : 'probability-of-precipitation', 'type' : 'floating' } ]);
                 }
 
                 return loadingFinished;
