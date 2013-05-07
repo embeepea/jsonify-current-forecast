@@ -48,6 +48,7 @@ function currentWeatherXMLObjectToStringArray(obj, parameters) {
                     for (var l = 0; l < tempArr.length; ++l) {
                         if (tempArr[l] !== undefined) {
                             hour = l;
+                            value = String(tempArr[l]);
                             calendarMonth = Number(month) + 1;
                             calendarDay = Number(day) + 1;
                             fullDate = year + calendarMonth + calendarDay + hour;
@@ -56,9 +57,9 @@ function currentWeatherXMLObjectToStringArray(obj, parameters) {
                             }
                             
                             if (newObj[fullDate][0] !== fullDate) { 
-                                newObj[fullDate].push(fullDate, tempArr[l]);
+                                newObj[fullDate].push(fullDate, value);
                             } else {
-                                newObj[fullDate].push(tempArr[l]);
+                                newObj[fullDate].push(value);
                             }
                         }
                     }
@@ -72,7 +73,7 @@ function currentWeatherXMLObjectToStringArray(obj, parameters) {
     for (var d in newObj) {
         arrOfStrings.push(newObj[d]);
     }
-    
+    console.log(arrOfStrings.sort()); 
     //return sorted
     return arrOfStrings.sort();
 }
