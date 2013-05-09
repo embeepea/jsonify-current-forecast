@@ -1,4 +1,21 @@
+function getKeys(obj) {
+    var keys = [];
+
+    for (var k in obj) {
+        if (!obj.hasOwnProperty(k)){ 
+            continue;
+        }
+        keys.push(k);
+    }
+    return keys;
+}
+
+function pad(n) {
+    return (n < 10) ? ("0" + n) : n;
+}
+
 function currentWeatherXMLObjectToStringArray(obj, parameters) {
+    
     var arrOfStrings = [],
         count,
         paramObj,
@@ -13,44 +30,46 @@ function currentWeatherXMLObjectToStringArray(obj, parameters) {
         newObj = {},
         fullDate;
 
-    for (count = 0; count < parameters.length; count++) {
-        paramObj = parameters[count]; 
+    for (count = 0; count < parameters.length; count += 1) {
+        paramObj = parameters[count];
 
-        if (paramObj['type']) {
+        if (paramObj.type) {
             //if a type is specified
-            param = paramObj['parameter'];
-            type = paramObj['type'];
+            param = paramObj.parameter;
+            type = paramObj.type;
             tempObj = obj[param][type];
 
         } else {
             //if no type specified
-            param = paramObj['parameter'];
+            param = paramObj.parameter;
             tempObj = obj[param];
         }
 
         years = getKeys(tempObj);
         
-        for (var i = 0; i < years.length; ++i) {
+        for (var i = 0; i < years.length; i += 1) {
             year = years[i];
             tempObj = tempObj[year];
 
             months = getKeys(tempObj);
    
-            for (var j = 0; j < months.length; ++j) {
+            for (var j = 0; j < months.length; j += 1) {
                 month = months[j];
                 tempObj = tempObj[month];
 
                 days = getKeys(tempObj);
 
-                for (var k = 0; k < days.length; ++k) {
+                for (var k = 0; k < days.length; k += 1) {
                     day = days[k];
                     tempArr = tempObj[day];         
-                    for (var l = 0; l < tempArr.length; ++l) {
+                    for (var l = 0; l < tempArr.length; l += 1) {
                         if (tempArr[l] !== undefined) {
-                            hour = l;
-                            value = String(tempArr[l]);
+                            hour = pad(l);
                             calendarMonth = Number(month) + 1;
-                            calendarDay = Number(day) + 1;
+                            value = String(tempArr[l]);
+                            calendarMonth = pad(Number(month) + 1);
+                            calendarDay = pad(Number(day) + 1);
+
                             fullDate = year + calendarMonth + calendarDay + hour;
                             if (!newObj[fullDate]) {
                                 newObj[fullDate] = [];
@@ -73,20 +92,8 @@ function currentWeatherXMLObjectToStringArray(obj, parameters) {
     for (var d in newObj) {
         arrOfStrings.push(newObj[d]);
     }
-    console.log(arrOfStrings.sort()); 
+    
     //return sorted
     return arrOfStrings.sort();
-}
-
-function getKeys(obj) {
-    var keys = [];
-
-    for (var k in obj) {
-        if (!obj.hasOwnProperty(k)){ 
-            continue;
-        }
-        keys.push(k);
-    }
-    return keys;
 }
 
