@@ -81,6 +81,13 @@ describe("currentWeatherXMLObjectToStringArray", function () {
                 expect(arr[15][3]).toEqual('100');
                 expect(arr[35][3]).toEqual('7');
                 expect(arr[60][3]).toEqual('7');
+
+                //entire array in proper order
+                expect(arr[0]).toEqual(['2013041112', '68', '54', '5']);
+                expect(arr[10]).toEqual(['2013041122', '65', '56', '99']);
+                expect(arr[15]).toEqual(['2013041203', '57', '56', '100']);
+                expect(arr[35]).toEqual(['2013041223', '52', '39', '7']);
+                expect(arr[60]).toEqual(['2013041400', '48', '34', '7']);
             });
 
         });
@@ -155,8 +162,14 @@ describe("currentWeatherXMLObjectToStringArray", function () {
                 expect(arr[15][3]).toEqual('3');
                 expect(arr[35][3]).toEqual('0');
                 expect(arr[60][3]).toEqual('0');
-            });
 
+                //entire array in proper order
+                expect(arr[0]).toEqual(['2013043010', '42', '33', '15']);
+                expect(arr[10]).toEqual(['2013043020', '55', '34', '3']);
+                expect(arr[15]).toEqual(['2013050101', '45', '35', '3']);
+                expect(arr[35]).toEqual(['2013050121', '58', '35', '0']);
+                expect(arr[60]).toEqual(['2013050222', '60', '39', '0']);
+            });
         });
     });
 
