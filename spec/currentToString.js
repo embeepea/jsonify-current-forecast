@@ -26,6 +26,7 @@ describe("currentWeatherXMLObjectToStringArray", function () {
         });
 
         beforeEach(function () {
+            
             waitsFor(function() {
                 if (loadingFinished) {
                     n = handleXML(data);
@@ -40,9 +41,47 @@ describe("currentWeatherXMLObjectToStringArray", function () {
         });
 
         describe('currentWeatherXMLObjectToStringArray', function () {
-
+         
             it('should return an array', function () {
                 expect(arr).toEqual(jasmine.any(Array));
+            });
+
+            it('should store arrays in the array ordered by date and time', function () {
+                console.log(arr);
+                expect(arr[0][0]).toEqual('2013041112');
+                expect(arr[10][0]).toEqual('2013041122');
+                expect(arr[15][0]).toEqual('2013041203');
+                expect(arr[35][0]).toEqual('2013041223');
+                expect(arr[60][0]).toEqual('2013041400'); 
+            });
+
+            it('should not store arrays with times but no values', function () {
+                expect(arr[165]).toBeUndefined();
+                expect(arr[166]).toBeUndefined();
+                expect(arr[167]).toBeUndefined();
+            });
+
+            it('should store the values of the parameters called as a string', function () {
+                //hourly temperatures
+                expect(arr[0][1]).toEqual('68');
+                expect(arr[10][1]).toEqual('65');
+                expect(arr[15][1]).toEqual('57');
+                expect(arr[35][1]).toEqual('52');
+                expect(arr[60][1]).toEqual('48');
+
+                //dew point temperature
+                expect(arr[0][2]).toEqual('54');
+                expect(arr[10][2]).toEqual('56');
+                expect(arr[15][2]).toEqual('56');
+                expect(arr[35][2]).toEqual('39');
+                expect(arr[60][2]).toEqual('34');
+
+                //probablility of precipitation
+                expect(arr[0][3]).toEqual('5');
+                expect(arr[10][3]).toEqual('99');
+                expect(arr[15][3]).toEqual('100');
+                expect(arr[35][3]).toEqual('7');
+                expect(arr[60][3]).toEqual('7');
             });
 
         });
