@@ -1,4 +1,5 @@
 function getKeys(obj) {
+    'use strict';
     var keys = [];
 
     for (var k in obj) {
@@ -14,8 +15,8 @@ function pad(n) {
     return (n < 10) ? ("0" + n) : n;
 }
 
-function currentWeatherXMLObjectToStringArray(obj, parameters) {
-    
+function currentWeatherXMLObjectToStringArray(obj, parameters) { 
+    'use strict';
     var arrOfStrings = [],
         count,
         paramObj,
@@ -23,8 +24,15 @@ function currentWeatherXMLObjectToStringArray(obj, parameters) {
         type,
         key,
         years,
+        year,
         months,
+        month,
         days,
+        day,
+        hour,
+        calendarMonth,
+        calendarDay,
+        value,
         tempObj,
         tempArr,
         newObj = {},
